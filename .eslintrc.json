@@ -1,0 +1,37 @@
+{
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js"]
+      }
+    }
+  },
+  "rules": {
+    "prettier/prettier": "off",
+    "jsx-a11y/alt-text": "off",
+    "react/display-name": "off",
+    "eslint-disable-next-line": "off",
+    "react-hooks/exhaustive-deps": "off",
+    "react/no-unescaped-entities": "off",
+    "react/jsx-max-props-per-line": [
+      1,
+      {
+        "maximum": 2,
+        "when": "multiline"
+      }
+    ],
+    "react/jsx-filename-extension": [2, { "extensions": [".js", ".jsx"] }],
+    "import/prefer-default-export": "off",
+    "react/prop-types": "off",
+    "react/no-unused-prop-types": "off",
+    "react/require-default-props": "off",
+    "no-underscore-dangle": "off",
+    "prefer-const": "off"
+  },
+  "overrides": [
+    {
+      "files": ["*.js"],
+      "rules": {}
+    }
+  ]
+}

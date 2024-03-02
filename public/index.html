@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="description" content="" />
+
+  <link href="%PUBLIC_URL%/css/index.css" rel="stylesheet" />
+  <link href="%PUBLIC_URL%/css/fonts.css" rel="stylesheet" />
+
+  <script defer src="%PUBLIC_URL%/js/layout.js"></script>
+  <script defer src="%PUBLIC_URL%/js/callbacks.js"></script>
+  <title>Дом сочных историй</title>
+</head>
+
+<body>
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <div id="marathon-app-wrapper">
+    <div id="marathon-app-container">
+      <div id="marathon-app-root"></div>
+    </div>
+  </div>
+  <!-- Тестовый фрагмент { -->
+  <div onclick="document.getElementById(`marathon-app-root`).dispatchEvent(new Event('reset'))"
+    style="background-color: red;position: absolute;">reset</div>
+  <!-- } Тестовый фрагмент -->
+</body>
+
+</html>
