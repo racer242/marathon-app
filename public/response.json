@@ -2,21 +2,8 @@
   "result": "OK",
   "errorText": "Вы не авторизованы, требуется авторизация!",
   "prize": {
-    "name": "Сертификат Яндекс.Плюс на 500руб",
-    "index": 0,
-    "thumbs": [
-      {
-        "normal": "./images/prize1-0.png",
-        "selected": "./images/prize1-1.png"
-      },
-      {
-        "normal": "./images/prize2-0.png",
-        "selected": "./images/prize2-1.png"
-      },
-      {
-        "normal": "./images/prize3-0.png",
-        "selected": "./images/prize3-1.png"
-      }
-    ]
+    "name": "35 рублей На телефон",
+    "text": "Мы пополним ваш номер телефона<br/> в течение недели",
+    "image": "./images/prize-1.png"
   }
 }

@@ -4,6 +4,7 @@ import { GlobalsContext } from "../contexts/GlobalsContext";
 
 function DataManager({ root }) {
   const loadSettings = (root) => {
+    console.log("loadSettings");
     setTimeout(async () => {
       const event = new Event("setup", { bubbles: true });
       root.dispatchEvent(event);
@@ -18,6 +19,7 @@ function DataManager({ root }) {
     }, 100);
   };
   const loadConfig = (root) => {
+    console.log("loadConfig");
     setTimeout(async () => {
       let response;
       try {
@@ -39,7 +41,7 @@ function DataManager({ root }) {
           setError(config.errors.noData);
         }
         if (response.data.result === "OK") {
-          action("show-prizes");
+          action("show-ready");
         } else {
           setError(response.data.errorText);
         }
@@ -54,7 +56,7 @@ function DataManager({ root }) {
 
   useEffect(() => {
     if (stage === "loading") loadSettings(root);
-    if (stage === "ringing") loadConfig(root);
+    if (stage === "ready-to-go") loadConfig(root);
   }, [stage]);
 
   return null;

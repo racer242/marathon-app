@@ -5,18 +5,12 @@ function houseAppCallbacks() {
     console.log("Game setup");
     event.data = {
       config: { url: "./response.json", method: "GET" }, //Адрес конфигурации игры https://dev.ms-2023.srv08.ru/api/Game
-      confetti: {
-        amount: 150, //Количество конфети
-      },
       prize: {
-        visiblePrizeAmount: 2, //Количество одновременно открываемых призов во время звонка
-        prizeChangeDuration: 500, //Интервал показа призов при ротации во время звонка
-        prizeRotationAmount: 10, //Количество показов призов во время звонка
+        pointChangeDuration: 600, //Интервал показа меток при ротации во время игры
+        pointRotationAmount: 12, //Количество показов меток во время игры
+        finishDelay: 2000, //Задержка после игры
       },
-      animation: {
-        normalDuration: 3, //Длительность анимации людей в режиме ожидания, сек
-        danceDuration: 1, //Длительность анимации во время звонка, сек
-      },
+      animation: { pointTransition: 300 },
       errors: {
         noData: "Конфигурация пустая",
         loadError: "Ошибка загрузки конфигурации",

@@ -1,68 +1,15 @@
-import decor1Back from "../assets/decor1-back.svg";
-import decor2Back from "../assets/decor2-back.svg";
-import decor4Back from "../assets/decor4-back.svg";
-import decor3Front from "../assets/decor3-front.svg";
-import decor5Front from "../assets/decor5-front.svg";
-import person1 from "../assets/person1.svg";
-import person2 from "../assets/person2.svg";
-import person3 from "../assets/person3.svg";
-import person4 from "../assets/person4.svg";
-import person5 from "../assets/person5.svg";
-import ring from "../assets/ring.svg";
-import ringSound from "../assets/ring-sound.svg";
-
-import cloudsLight from "../assets/clouds-light.svg";
-import cloudsDark from "../assets/clouds-dark.svg";
-import sky from "../assets/sky.svg";
-import building from "../assets/building.png";
-import ground from "../assets/ground.svg";
 import { createUseStyles, useTheme } from "react-jss";
-import Window from "./Window";
 import { useContext } from "react";
 import { GlobalsContext } from "../contexts/GlobalsContext";
+import field from "../assets/field.svg";
+import game from "../assets/game.png";
+
+import point from "../assets/point.svg";
+import { pointProps } from "../config/gameConfig";
 
 const SCENE_WIDTH = 880;
 const SCENE_HEIGHT = 580;
 const SCENE_PADDING = 300;
-const CLOUD_ANIMATION_DURATION = 40;
-
-const windowProps = [
-  {
-    left: 255,
-    top: 200,
-    decorBack: decor1Back,
-    decorFront: null,
-    person: person1,
-  },
-  {
-    left: 398,
-    top: 200,
-    decorBack: decor2Back,
-    decorFront: null,
-    person: person2,
-  },
-  {
-    left: 543,
-    top: 200,
-    decorBack: null,
-    decorFront: decor3Front,
-    person: person3,
-  },
-  {
-    left: 255,
-    top: 333,
-    decorBack: decor4Back,
-    decorFront: null,
-    person: person4,
-  },
-  {
-    left: 543,
-    top: 333,
-    decorBack: null,
-    decorFront: decor5Front,
-    person: person5,
-  },
-];
 
 const useStyles = createUseStyles({
   superWrapper: {
@@ -78,99 +25,49 @@ const useStyles = createUseStyles({
     width: SCENE_WIDTH,
     height: SCENE_HEIGHT,
   },
-  sky: {
+  field: {
     position: "absolute",
-    left: 0,
-    top: -350,
-    backgroundImage: `url(${sky})`,
-    backgroundPosition: "center center",
-    backgroundSize: "cover",
-    width: SCENE_WIDTH,
-    height: SCENE_HEIGHT + SCENE_PADDING,
-  },
-  building: {
-    position: "absolute",
-    left: 0,
-    top: 0,
-    backgroundImage: `url(${building})`,
+    left: 107,
+    top: 24,
+    backgroundImage: `url(${field})`,
     backgroundPosition: "center center",
     backgroundRepeat: "no-repeat",
-    backgroundSize: "500px 356px",
-    width: SCENE_WIDTH,
-    height: SCENE_HEIGHT,
+    backgroundSize: "668px 484px",
+    width: 668,
+    height: 484,
   },
-  ground: {
+  game: {
     position: "absolute",
-    left: "50%",
-    top: 393,
-    transform: "translateX(-50%)",
-    backgroundImage: `url(${ground})`,
+    left: 130,
+    top: 57,
+    backgroundImage: `url(${game})`,
     backgroundPosition: "center center",
     backgroundRepeat: "no-repeat",
-    backgroundSize: "1128px 588px",
-    width: 1175,
-    height: 588,
+    backgroundSize: "611px 416px",
+    width: 611,
+    height: 416,
   },
-  cloudsLight: {
+  pointContainer: {
     position: "absolute",
-    left: "50%",
-    top: 180,
-    transform: "translateX(-50%)",
-    backgroundImage: `url(${cloudsLight})`,
-    backgroundRepeat: "repeat-x",
-    backgroundSize: "1000px 210px",
-    width: 1000,
-    height: 210,
-    animation: `$moveCloudsLight ${CLOUD_ANIMATION_DURATION}s linear infinite`,
+    width: 53,
+    height: 53,
+    transform: "translate(-50%,-50%)",
   },
-  "@keyframes moveCloudsLight": {
-    from: { backgroundPositionX: 0 },
-    to: { backgroundPositionX: "1000px" },
-  },
-  cloudsDark: {
+  point: {
     position: "absolute",
-    left: "50%",
-    top: 180,
-    transform: "translateX(-50%)",
-    backgroundImage: `url(${cloudsDark})`,
-    backgroundRepeat: "repeat-x",
-    backgroundSize: "1000px 230px",
-    width: 1000,
-    height: 230,
-    animation: `$moveCloudsDark ${
-      CLOUD_ANIMATION_DURATION * 1.5
-    }s linear infinite`,
-  },
-  "@keyframes moveCloudsDark": {
-    from: { backgroundPositionX: 0 },
-    to: { backgroundPositionX: "1000px" },
-  },
-  ring: {
-    position: "absolute",
-    left: 486,
-    top: 377,
-    backgroundImage: `url(${ring})`,
+    backgroundImage: `url(${point})`,
     backgroundPosition: "center center",
     backgroundRepeat: "no-repeat",
-    backgroundSize: "14px 14px",
-    width: 14,
-    height: 14,
+    backgroundSize: "53px 53px",
+    width: 53,
+    height: 53,
+    transition: "opacity 300ms ease-in-out, transform 300ms ease-in-out",
   },
-  ringSound: {
+  decor: {
     position: "absolute",
-    left: 478,
-    top: 369,
-    backgroundImage: `url(${ringSound})`,
     backgroundPosition: "center center",
     backgroundRepeat: "no-repeat",
-    backgroundSize: "30px 30px",
-    width: 30,
-    height: 30,
-    animation: `$ringSound 100ms linear infinite alternate`,
-  },
-  "@keyframes ringSound": {
-    from: { transform: "scale(.8)" },
-    to: { transform: "scale(1.3)" },
+    transition: "opacity 300ms ease-in-out",
   },
 });
 
@@ -178,13 +75,13 @@ function Scene(props) {
   const { ...rest } = props;
   const theme = useTheme();
   const classes = useStyles({ theme });
-  const { stage, config, selectedWindow, visiblePrizes } =
+  const { stage, config, selectedPoint, selectedPointState, visiblePrizes } =
     useContext(GlobalsContext);
   const { thumbs, animation } = config ?? { thumbs: [], animation: {} };
 
-  const windows = windowProps.map((v, i) => ({
+  const points = pointProps.map((v, i) => ({
     index: i,
-    isSelected: selectedWindow === i,
+    isSelected: selectedPoint === i,
     stage,
     thumbs,
     visiblePrizes,
@@ -195,37 +92,69 @@ function Scene(props) {
   return (
     <div className={classes.superWrapper}>
       <div className={classes.wrapper} {...rest}>
-        <div className={classes.sky}></div>
-        <div
-          className={classes.cloudsDark}
-          style={{
-            animationPlayState:
-              stage !== "prize-selected" &&
-              stage !== "prize-zoom" &&
-              stage !== "finish"
-                ? "running"
-                : "paused",
-          }}
-        ></div>
-        <div
-          className={classes.cloudsLight}
-          style={{
-            animationPlayState:
-              stage !== "prize-selected" &&
-              stage !== "prize-zoom" &&
-              stage !== "finish"
-                ? "running"
-                : "paused",
-          }}
-        ></div>
-        <div className={classes.ground}></div>
-        <div className={classes.building}>
-          <div className={classes.ring}></div>
-          {stage === "ringing" && <div className={classes.ringSound}></div>}
-          {windows.map((v, i) => (
-            <Window key={i} {...v} />
+        {["ready-to-go", "ready-to-start", "game", "game-finish"].includes(
+          stage
+        ) && <div className={classes.field}></div>}
+        {["ready-to-go", "ready-to-start", "game", "game-finish"].includes(
+          stage
+        ) && <div className={classes.game}></div>}
+        {["ready-to-go", "ready-to-start", "game", "game-finish"].includes(
+          stage
+        ) &&
+          points.map((v, i) => (
+            <div key={i}>
+              <div
+                className={classes.decor}
+                style={{
+                  left: v.decorX,
+                  top: v.decorY,
+                  width: v.decorW,
+                  height: v.decorH,
+                  backgroundSize: `${v.decorW}px ${v.decorH}px`,
+                  backgroundImage: `url(${v.decor})`,
+                  ...(v.isSelected && selectedPointState === 1
+                    ? {
+                        opacity: 1,
+                      }
+                    : {
+                        opacity: 0,
+                      }),
+                }}
+              ></div>
+              <div
+                className={classes.pointContainer}
+                style={{
+                  left: v.pointX,
+                  top: v.pointY,
+                }}
+              >
+                <div
+                  className={classes.point}
+                  style={{
+                    ...(v.isSelected
+                      ? selectedPointState === 0
+                        ? {
+                            transform: "scale(3,3)",
+                            opacity: 0,
+                          }
+                        : selectedPointState === 1
+                        ? {
+                            transform: "scale(1,1)",
+                            opacity: 1,
+                          }
+                        : {
+                            transform: "scale(1,1)",
+                            opacity: 0,
+                          }
+                      : {
+                          transform: "scale(3,3)",
+                          opacity: 0,
+                        }),
+                  }}
+                ></div>
+              </div>
+            </div>
           ))}
-        </div>
       </div>
     </div>
   );

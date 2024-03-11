@@ -29,6 +29,7 @@ body {
     "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #721185;
 }
 
 #marathon-app-wrapper {
@@ -39,6 +40,8 @@ body {
   bottom: 0;
   overflow: hidden;
   visibility: hidden;
+  background-color: #fac913;
+  border-radius: 36px;
 }
 
 #marathon-app-container {

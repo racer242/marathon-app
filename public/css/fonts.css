@@ -8,3 +8,15 @@
   font-weight: normal;
   font-style: normal;
 }
+@font-face {
+  font-family: "Inter";
+  src: url("../fonts/inter_regular.eot"); /* IE 9 Compatibility Mode */
+  src: url("../fonts/inter_regular.eot?#iefix") format("embedded-opentype"),
+    /* IE < 9 */ url("../fonts/inter_regular.woff2") format("woff2"),
+    /* Super Modern Browsers */ url("../fonts/inter_regular.woff")
+      format("woff"),
+    /* Firefox >= 3.6, any other modern browser */
+      url("../fonts/inter_regular.ttf") format("truetype"); /* Safari, Android, iOS */
+  font-weight: normal;
+  font-style: normal;
+}

@@ -2,17 +2,34 @@ import { createContext, useEffect, useRef, useState } from "react";
 
 export const GlobalsContext = createContext({});
 
-const WINDOW_AMOUNT = 5;
+const POINT_AMOUNT = 6;
+let randomList = [];
+
+const shuffle = (n) => {
+  let num = Math.ceil(n / POINT_AMOUNT);
+  let r = Array(num)
+    .fill()
+    .map((_, i) =>
+      Array(POINT_AMOUNT)
+        .fill()
+        .map((_, i) => i)
+        .sort(() => (Math.random() > 0.5 ? 1 : -1))
+    );
+  for (let i = 1; i < num; i++) {
+    if (r[i - 1][r[i].length - 1] === r[i][0]) r[i].reverse();
+  }
+  randomList = r.flat();
+};
 
 export function GlobalsProvider({ children, data, root }) {
-  const [stage, setStage] = useState("loading"); //start,ringing,prize-selected,prize-zoom,finish
+  const [stage, setStage] = useState("loading");
   const stageRef = useRef(stage);
   stageRef.current = stage;
 
   const [settings, setSettings] = useState(null);
   const [error, setError] = useState(null);
-  const [selectedWindow, setSelectedWindow] = useState(-1);
-  const [visiblePrizes, setVisiblePrizes] = useState([]);
+  const [selectedPoint, setSelectedPoint] = useState(-1);
+  const [selectedPointState, setSelectedPointState] = useState(0);
 
   const [config, setConfig] = useState(null);
   const configRef = useRef(config);
@@ -32,73 +49,74 @@ export function GlobalsProvider({ children, data, root }) {
     setStage("start");
   };
 
-  const startRinging = () => {
-    setStage("ringing");
+  const readyToGo = () => {
+    setStage("ready-to-go");
   };
 
-  const showPrizes = () => {
-    setTimeout(() => {
-      if (stageRef.current !== "start") changePrizeVisibility();
-    }, config.prize.prizeChangeDuration * 3);
+  const readyToStart = () => {
+    setStage("ready-to-start");
   };
 
-  const changePrizeVisibility = () => {
-    let visiblePrizes = [];
-    let thumbs = Array(configRef.current.thumbs.length)
-      .fill(0)
-      .map((v, i) => i);
-    for (let i = 0; i < config.prize.visiblePrizeAmount; i++) {
-      const index = Math.floor(Math.random() * thumbs.length);
-      visiblePrizes[Math.floor(Math.random() * WINDOW_AMOUNT)] = thumbs.splice(
-        index,
-        1
-      )[0];
-    }
-    setVisiblePrizes(visiblePrizes);
+  const startGame = () => {
+    setStage("game");
+    shuffle(config.prize.pointRotationAmount);
+    changePoint();
+  };
 
-    if (prizeChangeCountRef.current < config.prize.prizeRotationAmount) {
+  const changePoint = () => {
+    setSelectedPoint(randomList[prizeChangeCountRef.current]);
+    if (prizeChangeCountRef.current < config.prize.pointRotationAmount - 1) {
       setPrizeChangeCount(prizeChangeCountRef.current + 1);
-
+      showPoint();
       setTimeout(() => {
-        if (stageRef.current !== "start") changePrizeVisibility();
-      }, config.prize.prizeChangeDuration);
+        if (stageRef.current !== "start") {
+          hidePoint();
+          setTimeout(() => {
+            if (stageRef.current !== "start") {
+              changePoint();
+            }
+          }, config.animation.pointTransition);
+        }
+      }, config.prize.pointChangeDuration);
     } else {
+      setPrizeChangeCount(prizeChangeCountRef.current + 1);
+      showPoint();
       setTimeout(() => {
-        if (stageRef.current !== "start") selectPrize();
-      }, config.prize.prizeChangeDuration);
+        if (stageRef.current !== "start") finishGame();
+      }, config.prize.finishDelay);
     }
   };
 
-  const selectPrize = () => {
-    let selectedWindow = Math.floor(Math.random() * WINDOW_AMOUNT);
-    let visiblePrizes = [];
-    visiblePrizes[selectedWindow] = configRef.current.index;
-    setVisiblePrizes(visiblePrizes);
-    setSelectedWindow(selectedWindow);
-
-    setStage("prize-selected");
-    setTimeout(() => {
-      if (stageRef.current !== "start") zoomPrize();
-    }, 1000);
+  const showPoint = () => {
+    setSelectedPointState(1);
   };
 
-  const zoomPrize = () => {
-    setStage("prize-zoom");
-    setTimeout(() => {
-      if (stageRef.current !== "start") finish();
-    }, 2000);
+  const hidePoint = () => {
+    setSelectedPointState(2);
   };
 
-  const finish = () => {
-    setStage("finish");
+  const finishGame = () => {
+    setStage("game-finish");
+  };
+
+  const final = () => {
+    setStage("final");
     root.dispatchEvent(new Event("finish", { bubbles: true }));
   };
 
   const reset = () => {
-    setVisiblePrizes(null);
-    setSelectedWindow(null);
+    setSelectedPoint(-1);
+    setSelectedPointState(0);
     setPrizeChangeCount(0);
+    setError(null);
     setStage("start");
+  };
+
+  const restart = () => {
+    setSelectedPoint(-1);
+    setSelectedPointState(0);
+    setPrizeChangeCount(0);
+    setStage("ready-to-go");
   };
 
   return (
@@ -111,23 +129,33 @@ export function GlobalsProvider({ children, data, root }) {
         setSettings,
         config,
         setConfig,
-        selectedWindow,
+        selectedPoint,
+        selectedPointState,
+        step: prizeChangeCountRef.current,
         error,
         setError,
-        visiblePrizes,
         action: (action) => {
           switch (action) {
             case "start":
               start();
               break;
-            case "start-ringing":
-              startRinging();
+            case "ready-to-go":
+              readyToGo();
               break;
-            case "show-prizes":
-              showPrizes();
+            case "show-ready":
+              readyToStart();
+              break;
+            case "start-game":
+              startGame();
+              break;
+            case "go-final":
+              final();
               break;
             case "reset":
               reset();
+              break;
+            case "restart":
+              restart();
               break;
             default:
               break;
