@@ -1,9 +1,12 @@
 import { useContext } from "react";
 import { createUseStyles, useTheme } from "react-jss";
+import RadialProgress from "react-radial-progress-motion";
+import { pointProps } from "../config/gameConfig";
+import { GlobalsContext } from "../contexts/GlobalsContext";
+
 import field from "../assets/field.svg";
 import redField from "../assets/red-field.svg";
 import track from "../assets/track.svg";
-import RadialProgress from "react-radial-progress-motion";
 import product from "../assets/product.png";
 import decor from "../assets/decor.svg";
 import background from "../assets/start-bg.png";
@@ -16,7 +19,6 @@ import clockSelected from "../assets/clock-selected.svg";
 import clockDisplay from "../assets/clock-display.svg";
 import clockButtonUp from "../assets/clock-button-up.svg";
 import clockButtonDown from "../assets/clock-button-down.svg";
-
 import finalDecor1 from "../assets/final-decor1.svg";
 import finalDecor2 from "../assets/final-decor2.svg";
 import finalDecor3 from "../assets/final-decor3.svg";
@@ -24,10 +26,6 @@ import finalDecor4 from "../assets/final-decor4.svg";
 import finalStarsLeft from "../assets/final-starts-left.svg";
 import finalStarsRight from "../assets/final-starts-right.svg";
 import prizeGlow from "../assets/prize-glow.svg";
-
-import { pointProps } from "../config/gameConfig";
-
-import { GlobalsContext } from "../contexts/GlobalsContext";
 
 const SCENE_WIDTH = 880;
 const SCENE_HEIGHT = 580;
@@ -43,7 +41,7 @@ const useStyles = createUseStyles({
   },
 
   //
-  // **********************************************************
+  // **** Общее ******************************************************
   //
   decor: {
     position: "absolute",
@@ -57,9 +55,14 @@ const useStyles = createUseStyles({
     height: SCENE_HEIGHT,
     pointerEvents: "none",
   },
-
+  buttonContainer: {
+    position: "absolute",
+    left: 0,
+    top: 0,
+    transition: "opacity 500ms ease-in-out 1s, transform 500ms ease-in-out 1s",
+  },
   //
-  // **********************************************************
+  // **** Начальный экран ******************************************************
   //
   startScreen: {
     top: 0,
@@ -67,7 +70,7 @@ const useStyles = createUseStyles({
     position: "absolute",
     width: SCENE_WIDTH,
     height: SCENE_HEIGHT,
-    transition: "opacity 1s ease-in-out 100ms",
+    transition: "opacity 500ms ease-in-out 100ms",
   },
   startBackground: {
     position: "absolute",
@@ -91,6 +94,8 @@ const useStyles = createUseStyles({
     backgroundSize: "471px 138px",
     width: 471,
     height: 138,
+    transition:
+      "opacity 500ms ease-in-out 200ms, transform 500ms ease-in-out 200ms",
   },
   prize1: {
     position: "absolute",
@@ -102,6 +107,8 @@ const useStyles = createUseStyles({
     backgroundSize: "102px 100px",
     width: 102,
     height: 100,
+    transition:
+      "opacity 500ms ease-in-out 400ms, transform 500ms ease-in-out 400ms",
   },
   prize2: {
     position: "absolute",
@@ -113,6 +120,8 @@ const useStyles = createUseStyles({
     backgroundSize: "102px 100px",
     width: 102,
     height: 100,
+    transition:
+      "opacity 500ms ease-in-out 500ms, transform 500ms ease-in-out 500ms",
   },
   prize3: {
     position: "absolute",
@@ -124,6 +133,8 @@ const useStyles = createUseStyles({
     backgroundSize: "102px 100px",
     width: 102,
     height: 100,
+    transition:
+      "opacity 500ms ease-in-out 600ms, transform 500ms ease-in-out 600ms",
   },
   startLaterButton: {
     boxSizing: "border-box",
@@ -144,7 +155,6 @@ const useStyles = createUseStyles({
       border: "2px solid #C1022F",
       color: "#C1022F",
     },
-    transition: "opacity 1s ease-in-out 100ms",
   },
   startButton: {
     boxSizing: "border-box",
@@ -167,19 +177,21 @@ const useStyles = createUseStyles({
       color: "#FFFFFF",
     },
     animation: `$movestartButton 1s ease-in-out infinite alternate`,
-    transition: "opacity 1s ease-in-out 100ms",
   },
   "@keyframes movestartButton": {
     from: { transform: "scale(.95)" },
     to: { transform: "scale(1.05)" },
   },
+  //
+  // **** Стартовый экран ******************************************************
+  //
   clockButtonContainer: {
     position: "absolute",
     left: 380,
     top: 420,
     width: 115,
     height: 128,
-    transition: "opacity 1s ease-in-out 100ms, transform 1s ease-in-out 1000ms",
+    transition: "opacity 1s ease-in-out 100ms, transform 1s ease-in-out 100ms",
   },
   clockButton: {
     position: "absolute",
@@ -200,6 +212,9 @@ const useStyles = createUseStyles({
     },
     animation: `$movestartButton 1s ease-in-out infinite alternate`,
   },
+  //
+  // **** Игровой экран ******************************************************
+  //
   clockDisplay: {
     position: "absolute",
     left: 18,
@@ -235,7 +250,7 @@ const useStyles = createUseStyles({
     height: 79,
   },
   //
-  // **********************************************************
+  // **** Конец игры ******************************************************
   //
   gameFinishScreen: {
     top: 0,
@@ -243,7 +258,7 @@ const useStyles = createUseStyles({
     position: "absolute",
     width: SCENE_WIDTH,
     height: SCENE_HEIGHT,
-    transition: "opacity 1s ease-in-out 100ms",
+    transition: "opacity 1s ease-in-out 0ms, transform 300ms ease-in 0ms",
   },
   field: {
     position: "absolute",
@@ -255,6 +270,116 @@ const useStyles = createUseStyles({
     backgroundSize: "668px 484px",
     width: 668,
     height: 484,
+  },
+  stop: {
+    position: "absolute",
+    left: 289,
+    top: 49,
+    backgroundPosition: "center center",
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "300px 200px",
+    width: 300,
+    height: 200,
+    transition: "opacity 1s ease-in-out 100ms, transform 1s ease-in-out 100ms",
+  },
+  track: {
+    position: "absolute",
+    left: 260,
+    top: 105,
+    backgroundImage: `url(${track})`,
+    backgroundPosition: "center center",
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "358px 169px",
+    width: 358,
+    height: 169,
+    transition:
+      "opacity 500ms ease-in-out 500ms, transform 500ms ease-in-out 500ms",
+  },
+  product: {
+    position: "absolute",
+    left: 270,
+    top: 84,
+    backgroundImage: `url(${product})`,
+    backgroundPosition: "center center",
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "344px 185px",
+    width: 344,
+    height: 185,
+    transition:
+      "opacity 500ms ease-in-out 800ms, transform 500ms ease-in-out 800ms",
+  },
+  finalDecor1: {
+    position: "absolute",
+    left: 148,
+    top: 89,
+    backgroundImage: `url(${finalDecor1})`,
+    backgroundPosition: "center center",
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "142px 139px",
+    width: 142,
+    height: 139,
+    transition: "opacity 2s ease-out 1s, transform 2s ease-out 1s",
+  },
+  finalDecor2: {
+    position: "absolute",
+    left: 585,
+    top: 137,
+    backgroundImage: `url(${finalDecor2})`,
+    backgroundPosition: "center center",
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "121px 108px",
+    width: 121,
+    height: 108,
+    transition: "opacity 2s ease-out 1s, transform 2s ease-out 1s",
+  },
+  finalDecor3: {
+    position: "absolute",
+    left: 173,
+    top: 89,
+    backgroundImage: `url(${finalDecor3})`,
+    backgroundPosition: "center center",
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "141px 95px",
+    width: 141,
+    height: 95,
+    transition: "opacity 2s ease-out 1s, transform 2s ease-out 1s",
+  },
+  finalDecor4: {
+    position: "absolute",
+    left: 585,
+    top: 89,
+    backgroundImage: `url(${finalDecor4})`,
+    backgroundPosition: "center center",
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "122px 178px",
+    width: 122,
+    height: 178,
+    transition: "opacity 2s ease-out 1s, transform 2s ease-out 1s",
+  },
+  stopTitle: {
+    position: "absolute",
+    width: "100%",
+    height: "auto",
+    left: 0,
+    top: 288,
+    color: "#721185",
+    fontSize: 22,
+    textAlign: "center",
+    lineHeight: "auto",
+    transition: "opacity 500ms ease-in-out 1s",
+  },
+  stopText: {
+    position: "absolute",
+    width: 410,
+    height: "auto",
+    left: 237,
+    top: 327,
+    color: "#262626",
+    fontSize: 14,
+    textAlign: "center",
+    lineHeight: "auto",
+    transition: "opacity 500ms ease-in-out 2s",
+    fontFamily: "Inter",
   },
   finalButton: {
     boxSizing: "border-box",
@@ -277,111 +402,9 @@ const useStyles = createUseStyles({
       color: "#FFFFFF",
     },
     animation: `$movestartButton 1s ease-in-out infinite alternate`,
-    transition: "opacity 1s ease-in-out 100ms",
-  },
-  stop: {
-    position: "absolute",
-    left: 289,
-    top: 49,
-    backgroundPosition: "center center",
-    backgroundRepeat: "no-repeat",
-    backgroundSize: "300px 200px",
-    width: 300,
-    height: 200,
-  },
-  track: {
-    position: "absolute",
-    left: 260,
-    top: 105,
-    backgroundImage: `url(${track})`,
-    backgroundPosition: "center center",
-    backgroundRepeat: "no-repeat",
-    backgroundSize: "358px 169px",
-    width: 358,
-    height: 169,
-  },
-  stopTitle: {
-    position: "absolute",
-    width: "100%",
-    height: "auto",
-    left: 0,
-    top: 288,
-    color: "#721185",
-    fontSize: 22,
-    textAlign: "center",
-    lineHeight: "auto",
-    transition: "opacity 1s ease-in-out 100ms",
-  },
-  stopText: {
-    position: "absolute",
-    width: 410,
-    height: "auto",
-    left: 237,
-    top: 327,
-    color: "#262626",
-    fontSize: 14,
-    textAlign: "center",
-    lineHeight: "auto",
-    transition: "opacity 1s ease-in-out 100ms",
-    fontFamily: "Inter",
-  },
-  product: {
-    position: "absolute",
-    left: 270,
-    top: 84,
-    backgroundImage: `url(${product})`,
-    backgroundPosition: "center center",
-    backgroundRepeat: "no-repeat",
-    backgroundSize: "344px 185px",
-    width: 344,
-    height: 185,
-  },
-  finalDecor1: {
-    position: "absolute",
-    left: 148,
-    top: 89,
-    backgroundImage: `url(${finalDecor1})`,
-    backgroundPosition: "center center",
-    backgroundRepeat: "no-repeat",
-    backgroundSize: "142px 139px",
-    width: 142,
-    height: 139,
-  },
-  finalDecor2: {
-    position: "absolute",
-    left: 585,
-    top: 137,
-    backgroundImage: `url(${finalDecor2})`,
-    backgroundPosition: "center center",
-    backgroundRepeat: "no-repeat",
-    backgroundSize: "121px 108px",
-    width: 121,
-    height: 108,
-  },
-  finalDecor3: {
-    position: "absolute",
-    left: 173,
-    top: 89,
-    backgroundImage: `url(${finalDecor3})`,
-    backgroundPosition: "center center",
-    backgroundRepeat: "no-repeat",
-    backgroundSize: "141px 95px",
-    width: 141,
-    height: 95,
-  },
-  finalDecor4: {
-    position: "absolute",
-    left: 585,
-    top: 89,
-    backgroundImage: `url(${finalDecor4})`,
-    backgroundPosition: "center center",
-    backgroundRepeat: "no-repeat",
-    backgroundSize: "122px 178px",
-    width: 122,
-    height: 178,
   },
   //
-  // **********************************************************
+  // **** Экран с призом ******************************************************
   //
   finalScreen: {
     top: 0,
@@ -389,7 +412,7 @@ const useStyles = createUseStyles({
     position: "absolute",
     width: SCENE_WIDTH,
     height: SCENE_HEIGHT,
-    transition: "opacity 1s ease-in-out 100ms",
+    transition: "opacity 1s ease-in-out 0ms, transform 300ms ease-out 0ms",
   },
   redField: {
     position: "absolute",
@@ -402,6 +425,17 @@ const useStyles = createUseStyles({
     width: 668,
     height: 484,
   },
+  prizeImage: {
+    position: "absolute",
+    left: 313,
+    top: 87,
+    backgroundPosition: "center center",
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "250px 250px",
+    width: 250,
+    height: 250,
+    transition: "opacity 1s ease-in-out 100ms, transform 1s ease-in-out 100ms",
+  },
   prizeTitle: {
     position: "absolute",
     width: "100%",
@@ -412,7 +446,7 @@ const useStyles = createUseStyles({
     fontSize: 16,
     textAlign: "center",
     lineHeight: "auto",
-    transition: "opacity 1s ease-in-out 100ms",
+    transition: "opacity 500ms ease-in-out 1s",
   },
   prizeName: {
     position: "absolute",
@@ -424,7 +458,7 @@ const useStyles = createUseStyles({
     fontSize: 22,
     textAlign: "center",
     lineHeight: "auto",
-    transition: "opacity 1s ease-in-out 100ms",
+    transition: "opacity 500ms ease-in-out 1s",
   },
   prizeText: {
     position: "absolute",
@@ -436,18 +470,9 @@ const useStyles = createUseStyles({
     fontSize: 16,
     textAlign: "center",
     lineHeight: "auto",
-    transition: "opacity 1s ease-in-out 100ms",
+    transition: "opacity 500ms ease-in-out 2s",
   },
-  prizeImage: {
-    position: "absolute",
-    left: 313,
-    top: 87,
-    backgroundPosition: "center center",
-    backgroundRepeat: "no-repeat",
-    backgroundSize: "250px 250px",
-    width: 250,
-    height: 250,
-  },
+
   prizeGlow: {
     position: "absolute",
     left: 313,
@@ -458,6 +483,7 @@ const useStyles = createUseStyles({
     backgroundSize: "250px 250px",
     width: 250,
     height: 250,
+    transition: "opacity 1s ease-in-out 100ms",
   },
   finalStarsLeft: {
     position: "absolute",
@@ -469,6 +495,7 @@ const useStyles = createUseStyles({
     backgroundSize: "164px 204px",
     width: 164,
     height: 204,
+    transition: "opacity 2s ease-out 1s, transform 2s ease-out 1s",
   },
   finalStarsRight: {
     position: "absolute",
@@ -480,6 +507,7 @@ const useStyles = createUseStyles({
     backgroundSize: "208px 203px",
     width: 208,
     height: 203,
+    transition: "opacity 2s ease-out 1s, transform 2s ease-out 1s",
   },
 });
 
@@ -491,7 +519,7 @@ function Interface() {
   return (
     <div className={classes.wrapper}>
       {/*
-       **********************************************************
+       **** Начальный экран ******************************************************
        */}
       <div
         className={classes.startScreen}
@@ -501,29 +529,65 @@ function Interface() {
         }}
       >
         <div className={classes.startBackground}></div>
-        <div className={classes.title}></div>
-        <div className={classes.prize1}></div>
-        <div className={classes.prize2}></div>
-        <div className={classes.prize3}></div>
         <div
-          className={classes.startLaterButton}
-          onClick={(e) => {
-            e.target.dispatchEvent(new Event("skip", { bubbles: true }));
+          className={classes.title}
+          style={{
+            opacity: stage === "start" ? 1 : 0,
+            transform: stage === "start" ? "scale(1)" : "scale(.8)",
+          }}
+        ></div>
+        <div
+          className={classes.prize1}
+          style={{
+            opacity: stage === "start" ? 1 : 0,
+            transform:
+              stage === "start" ? "translateY(0px)" : "translateY(10px)",
+          }}
+        ></div>
+        <div
+          className={classes.prize2}
+          style={{
+            opacity: stage === "start" ? 1 : 0,
+            transform:
+              stage === "start" ? "translateY(0px)" : "translateY(10px)",
+          }}
+        ></div>
+        <div
+          className={classes.prize3}
+          style={{
+            opacity: stage === "start" ? 1 : 0,
+            transform:
+              stage === "start" ? "translateY(0px)" : "translateY(10px)",
+          }}
+        ></div>
+        <div
+          className={classes.buttonContainer}
+          style={{
+            opacity: stage === "start" ? 1 : 0,
+            transform:
+              stage === "start" ? "translateY(0px)" : "translateY(20px)",
           }}
         >
-          Пробежаться позже
-        </div>
-        <div
-          className={classes.startButton}
-          onClick={(e) => {
-            action("ready-to-go");
-          }}
-        >
-          Пробежаться и узнать
+          <div
+            className={classes.startLaterButton}
+            onClick={(e) => {
+              e.target.dispatchEvent(new Event("skip", { bubbles: true }));
+            }}
+          >
+            Пробежаться позже
+          </div>
+          <div
+            className={classes.startButton}
+            onClick={(e) => {
+              action("ready-to-go");
+            }}
+          >
+            Пробежаться и узнать
+          </div>
         </div>
       </div>
       {/*
-       **********************************************************
+       **** Стартовый экран ******************************************************
        */}
       <div
         className={classes.clockButtonContainer}
@@ -556,100 +620,220 @@ function Interface() {
       </div>
 
       {/*
-       **********************************************************
+       **** Конец игры ******************************************************
        */}
       <div
         className={classes.gameFinishScreen}
         style={{
-          opacity: stage === "game-finish" ? 1 : 0,
+          opacity: ["game-finish", "closed"].includes(stage) ? 1 : 0,
+          transform: ["closed", "final"].includes(stage)
+            ? "scaleX(0)"
+            : "scaleX(1)",
           pointerEvents: stage === "game-finish" ? "all" : "none",
         }}
       >
         <div className={classes.field}></div>
-        <div className={classes.track}></div>
-        <div className={classes.finalDecor3}></div>
-        <div className={classes.finalDecor4}></div>
-        <div className={classes.finalDecor1}></div>
-        <div className={classes.finalDecor2}></div>
-        {selectedPoint > 0 && (
-          <>
-            <div
-              className={classes.stop}
-              style={{
-                backgroundImage: `url(${pointProps[selectedPoint].stop})`,
-              }}
-            ></div>
-            <div
-              className={classes.stopTitle}
-              dangerouslySetInnerHTML={{
-                __html: pointProps[selectedPoint].title,
-              }}
-            ></div>
-            <div
-              className={classes.stopText}
-              dangerouslySetInnerHTML={{
-                __html: pointProps[selectedPoint].text,
-              }}
-            ></div>
-            <div
-              className={classes.finalButton}
-              onClick={(e) => {
-                action("go-final");
-              }}
-            >
-              Нажать и узнать приз
-            </div>
-          </>
-        )}
-        <div className={classes.product}></div>
+        <div
+          className={classes.track}
+          style={{
+            opacity: ["game-finish", "closed"].includes(stage) ? 1 : 0,
+            transform: ["game-finish", "closed"].includes(stage)
+              ? "translateY(0px)"
+              : "translateY(-20px)",
+          }}
+        ></div>
+        <div
+          className={classes.finalDecor3}
+          style={{
+            opacity: ["game-finish", "closed"].includes(stage) ? 1 : 0,
+            transform: ["game-finish", "closed"].includes(stage)
+              ? "translateX(0px)"
+              : "translateX(30px)",
+          }}
+        ></div>
+        <div
+          className={classes.finalDecor4}
+          style={{
+            opacity: ["game-finish", "closed"].includes(stage) ? 1 : 0,
+            transform: ["game-finish", "closed"].includes(stage)
+              ? "translateX(0px)"
+              : "translateX(-30px)",
+          }}
+        ></div>
+        <div
+          className={classes.finalDecor1}
+          style={{
+            opacity: ["game-finish", "closed"].includes(stage) ? 1 : 0,
+            transform: ["game-finish", "closed"].includes(stage)
+              ? "translateX(0px)"
+              : "translateX(100px)",
+          }}
+        ></div>
+        <div
+          className={classes.finalDecor2}
+          style={{
+            opacity: ["game-finish", "closed"].includes(stage) ? 1 : 0,
+            transform: ["game-finish", "closed"].includes(stage)
+              ? "translateX(0px)"
+              : "translateX(-100px)",
+          }}
+        ></div>
+        <div
+          className={classes.stop}
+          style={{
+            backgroundImage: `url(${
+              selectedPoint >= 0 ? pointProps[selectedPoint].stop : ""
+            })`,
+            opacity: ["game-finish", "closed"].includes(stage) ? 1 : 0,
+            transform: ["game-finish", "closed"].includes(stage)
+              ? "scale(1)"
+              : "scale(.3)",
+          }}
+        ></div>
+        <div
+          className={classes.product}
+          style={{
+            opacity: ["game-finish", "closed"].includes(stage) ? 1 : 0,
+            transform: ["game-finish", "closed"].includes(stage)
+              ? "translateY(0px)"
+              : "translateY(20px)",
+          }}
+        ></div>
+        <div
+          className={classes.stopTitle}
+          dangerouslySetInnerHTML={{
+            __html: selectedPoint >= 0 ? pointProps[selectedPoint].title : "",
+          }}
+          style={{
+            opacity: ["game-finish", "closed"].includes(stage) ? 1 : 0,
+          }}
+        ></div>
+        <div
+          className={classes.stopText}
+          dangerouslySetInnerHTML={{
+            __html: selectedPoint >= 0 ? pointProps[selectedPoint].text : "",
+          }}
+          style={{
+            opacity: ["game-finish", "closed"].includes(stage) ? 1 : 0,
+          }}
+        ></div>
+        <div
+          className={classes.buttonContainer}
+          style={{
+            opacity: ["game-finish", "closed"].includes(stage) ? 1 : 0,
+            transform: ["game-finish", "closed"].includes(stage)
+              ? "translateY(0px)"
+              : "translateY(20px)",
+          }}
+        >
+          <div
+            className={classes.finalButton}
+            onClick={(e) => {
+              action("go-close");
+            }}
+          >
+            Нажать и проверить
+          </div>
+        </div>
       </div>
 
       {/*
-       **********************************************************
+       **** Финальный экран с призом ******************************************************
        */}
       <div
         className={classes.finalScreen}
         style={{
-          opacity: stage === "final" ? 1 : 0,
+          opacity: ["final", "closed"].includes(stage) ? 1 : 0,
           pointerEvents: stage === "final" ? "all" : "none",
+          transform: ["game-finish", "closed"].includes(stage)
+            ? "scaleX(0)"
+            : "scaleX(1)",
         }}
       >
         <div className={classes.redField}></div>
-        <div className={classes.prizeGlow}></div>
-        <div className={classes.finalStarsLeft}></div>
-        <div className={classes.finalStarsRight}></div>
+        <div
+          className={classes.prizeGlow}
+          style={{
+            opacity: stage === "final" ? 1 : 0,
+          }}
+        ></div>
+        <div
+          className={classes.finalStarsLeft}
+          style={{
+            opacity: stage === "final" && !config.noPrize ? 1 : 0,
+            transform:
+              stage === "final" && !config.noPrize
+                ? "translateX(0px)"
+                : "translateX(100px)",
+          }}
+        ></div>
+        <div
+          className={classes.finalStarsRight}
+          style={{
+            opacity: stage === "final" && !config.noPrize ? 1 : 0,
+            transform:
+              stage === "final" && !config.noPrize
+                ? "translateX(0px)"
+                : "translateX(-100px)",
+          }}
+        ></div>
         {config && config.name && (
           <>
             <div
               className={classes.prizeImage}
               style={{
                 backgroundImage: `url(${config.image})`,
+                opacity: stage === "final" ? 1 : 0,
+                transform: stage === "final" ? "scale(1)" : "scale(.3)",
               }}
             ></div>
-            <div className={classes.prizeTitle}>Итак, ваш приз:</div>
+            <div
+              className={classes.prizeTitle}
+              style={{
+                opacity: stage === "final" ? 1 : 0,
+              }}
+            >
+              {config.noPrize ? "К сожалению," : "Итак, ваш приз:"}
+            </div>
             <div
               className={classes.prizeName}
               dangerouslySetInnerHTML={{ __html: config.name }}
+              style={{
+                opacity: stage === "final" ? 1 : 0,
+              }}
             ></div>
             <div
               className={classes.prizeText}
               dangerouslySetInnerHTML={{ __html: config.text }}
+              style={{
+                opacity: stage === "final" ? 1 : 0,
+              }}
             ></div>
+
             <div
-              className={classes.startLaterButton}
-              onClick={(e) => {
-                e.target.dispatchEvent(new Event("skip", { bubbles: true }));
+              className={classes.buttonContainer}
+              style={{
+                opacity: stage === "final" ? 1 : 0,
+                transform:
+                  stage === "final" ? "translateY(0px)" : "translateY(20px)",
               }}
             >
-              Закрыть окно
-            </div>
-            <div
-              className={classes.startButton}
-              onClick={(e) => {
-                action("restart");
-              }}
-            >
-              Сыграть еще раз
+              <div
+                className={classes.startLaterButton}
+                onClick={(e) => {
+                  e.target.dispatchEvent(new Event("skip", { bubbles: true }));
+                }}
+              >
+                Закрыть окно
+              </div>
+              <div
+                className={classes.startButton}
+                onClick={(e) => {
+                  action("restart");
+                }}
+              >
+                Сыграть еще раз
+              </div>
             </div>
           </>
         )}
@@ -658,6 +842,23 @@ function Interface() {
       {/*
        **********************************************************
        */}
+      <div style={{ visibility: "hidden" }}>
+        <div
+          style={{
+            backgroundImage: `url(${clockButtonDown})`,
+          }}
+        ></div>
+        <div
+          style={{
+            backgroundImage: `url(${clock})`,
+          }}
+        ></div>
+        <div
+          style={{
+            backgroundImage: `url(${clockSelected})`,
+          }}
+        ></div>
+      </div>
       <div
         className={classes.clockContainer}
         style={{

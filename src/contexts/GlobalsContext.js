@@ -99,6 +99,13 @@ export function GlobalsProvider({ children, data, root }) {
     setStage("game-finish");
   };
 
+  const close = () => {
+    setStage("closed");
+    setTimeout(() => {
+      if (stageRef.current !== "start") final();
+    }, 480);
+  };
+
   const final = () => {
     setStage("final");
     root.dispatchEvent(new Event("finish", { bubbles: true }));
@@ -147,6 +154,9 @@ export function GlobalsProvider({ children, data, root }) {
               break;
             case "start-game":
               startGame();
+              break;
+            case "go-close":
+              close();
               break;
             case "go-final":
               final();

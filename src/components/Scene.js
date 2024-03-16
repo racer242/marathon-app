@@ -1,10 +1,11 @@
 import { createUseStyles, useTheme } from "react-jss";
 import { useContext } from "react";
 import { GlobalsContext } from "../contexts/GlobalsContext";
+
 import field from "../assets/field.svg";
 import game from "../assets/game.png";
-
 import point from "../assets/point.svg";
+
 import { pointProps } from "../config/gameConfig";
 
 const SCENE_WIDTH = 880;
@@ -24,6 +25,7 @@ const useStyles = createUseStyles({
     top: SCENE_PADDING,
     width: SCENE_WIDTH,
     height: SCENE_HEIGHT,
+    transition: "opacity 500ms ease-in-out 400ms",
   },
   field: {
     position: "absolute",
@@ -91,7 +93,15 @@ function Scene(props) {
 
   return (
     <div className={classes.superWrapper}>
-      <div className={classes.wrapper} {...rest}>
+      <div
+        className={classes.wrapper}
+        {...rest}
+        style={{
+          opacity: ["ready-to-go", "ready-to-start", "game"].includes(stage)
+            ? 1
+            : 0,
+        }}
+      >
         {["ready-to-go", "ready-to-start", "game", "game-finish"].includes(
           stage
         ) && <div className={classes.field}></div>}

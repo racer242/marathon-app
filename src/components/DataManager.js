@@ -21,9 +21,15 @@ function DataManager({ root }) {
   const loadConfig = (root) => {
     console.log("loadConfig");
     setTimeout(async () => {
+      let JWT;
+      try {
+        JWT = window.getJWT();
+      } catch (error) {
+        console.log("window.getJWT isn't set");
+      }
       let response;
       try {
-        response = await axios(config.config);
+        response = await axios(config.config, { headers: { JWT: JWT } });
       } catch (e) {
         console.error("Request Error:", e.message, e.response);
         if (e.response?.data?.errorText) {
@@ -34,11 +40,30 @@ function DataManager({ root }) {
         return;
       }
 
+      if (response?.data?.JWT) {
+        try {
+          window.saveJWT(response?.data?.JWT);
+        } catch (error) {
+          console.log("window.saveJWT isn't set");
+        }
+      } else {
+        console.log("JWT isn't transferred");
+      }
+
       if (response?.data) {
         if (response?.data?.prize) {
           setConfig({ ...response.data.prize, ...config });
         } else {
-          setError(config.errors.noData);
+          setConfig({
+            ...{
+              name: "Вы не выиграли",
+              text: "Попробуйте сыграть еще раз",
+              image: "./images/no-prize.png",
+              noPrize: true,
+            },
+            ...config,
+          });
+          // setError(config.errors.noData);
         }
         if (response.data.result === "OK") {
           action("show-ready");

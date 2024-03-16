@@ -22,6 +22,15 @@
   outline: none;
 }
 
+#viewport {
+  perspective: 3000px;
+  -webkit-perspective: 3000px;
+}
+#camera {
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+}
+
 body {
   margin: 0;
   font-family: "DolceCaffe", -apple-system, BlinkMacSystemFont, "Segoe UI",
