@@ -51,8 +51,8 @@ function DataManager({ root }) {
       }
 
       if (response?.data) {
-        if (response?.data?.prize) {
-          setConfig({ ...response.data.prize, ...config });
+        if (response?.data?.data?.prize) {
+          setConfig({ ...response.data.data.prize, ...config });
         } else {
           setConfig({
             ...{

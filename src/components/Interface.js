@@ -366,7 +366,7 @@ const useStyles = createUseStyles({
     fontSize: 22,
     textAlign: "center",
     lineHeight: "auto",
-    transition: "opacity 500ms ease-in-out 1s",
+    transition: "opacity 500ms ease-in-out 1.3s",
   },
   stopText: {
     position: "absolute",
@@ -378,7 +378,7 @@ const useStyles = createUseStyles({
     fontSize: 14,
     textAlign: "center",
     lineHeight: "auto",
-    transition: "opacity 500ms ease-in-out 2s",
+    transition: "opacity 500ms ease-in-out 1.7s",
     fontFamily: "Inter",
   },
   finalButton: {
@@ -458,7 +458,7 @@ const useStyles = createUseStyles({
     fontSize: 22,
     textAlign: "center",
     lineHeight: "auto",
-    transition: "opacity 500ms ease-in-out 1s",
+    transition: "opacity 500ms ease-in-out 1.2s",
   },
   prizeText: {
     position: "absolute",
@@ -470,7 +470,7 @@ const useStyles = createUseStyles({
     fontSize: 16,
     textAlign: "center",
     lineHeight: "auto",
-    transition: "opacity 500ms ease-in-out 2s",
+    transition: "opacity 500ms ease-in-out 1.7s",
   },
 
   prizeGlow: {
