@@ -18,8 +18,6 @@ function houseAppLayout() {
             houseAppWrapper.clientWidth / CONTAINER_MIN_WIDTH,
             houseAppWrapper.clientHeight / CONTAINER_NATIVE_HEIGHT
           )
-        : houseAppWrapper.clientWidth < CONTAINER_NATIVE_WIDTH
-        ? 1
         : Math.min(
             houseAppWrapper.clientWidth / CONTAINER_NATIVE_WIDTH,
             houseAppWrapper.clientHeight / CONTAINER_NATIVE_HEIGHT
@@ -32,6 +30,7 @@ function houseAppLayout() {
     updateBounds();
   });
 }
-window.addEventListener("load", (event) => {
+
+document.addEventListener("readyGame", (event) => {
   houseAppLayout();
 });

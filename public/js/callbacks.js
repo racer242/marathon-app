@@ -4,7 +4,7 @@ function houseAppCallbacks() {
   houseAppRoot.addEventListener("setup", (event) => {
     console.log("Game setup");
     event.data = {
-      config: { url: "./response.json", method: "GET" }, //Адрес конфигурации игры https://dev.ms-2023.srv08.ru/api/Game
+      config: { url: `${window.apiUrl}/api/PlayGame`, method: "POST" }, //Адрес конфигурации игры https://dev.ms-2023.srv08.ru/api/Game
       prize: {
         pointChangeDuration: 600, //Интервал показа меток при ротации во время игры
         pointRotationAmount: 12, //Количество показов меток во время игры
@@ -19,6 +19,8 @@ function houseAppCallbacks() {
   });
 
   houseAppRoot.addEventListener("skip", (event) => {
+    document.dispatchEvent(new CustomEvent("gameEnd"));
+
     console.log("Game skipped");
   });
 
@@ -27,6 +29,6 @@ function houseAppCallbacks() {
   });
 }
 
-window.addEventListener("load", (event) => {
+document.addEventListener("readyGame", (event) => {
   houseAppCallbacks();
 });
