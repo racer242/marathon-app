@@ -29,7 +29,13 @@ function DataManager({ root }) {
       }
       let response;
       try {
-        response = await axios({ ...config.config, headers: { JWT: JWT } });
+        response = await axios({
+          ...config.config,
+          data: {
+            play: true,
+          },
+          headers: { JWT: JWT },
+        });
       } catch (e) {
         console.error("Request Error:", e.message, e.response);
         if (e.response?.data?.errorText) {
