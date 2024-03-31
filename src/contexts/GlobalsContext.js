@@ -58,6 +58,10 @@ export function GlobalsProvider({ children, data, root }) {
   };
 
   const startGame = () => {
+    setStage("start-game");
+  };
+
+  const playGame = () => {
     setStage("game");
     shuffle(config.prize.pointRotationAmount);
     changePoint();
@@ -123,7 +127,7 @@ export function GlobalsProvider({ children, data, root }) {
     setSelectedPoint(-1);
     setSelectedPointState(0);
     setPrizeChangeCount(0);
-    setStage("ready-to-go");
+    setStage("ready-to-start");
   };
 
   return (
@@ -154,6 +158,9 @@ export function GlobalsProvider({ children, data, root }) {
               break;
             case "start-game":
               startGame();
+              break;
+            case "play-game":
+              playGame();
               break;
             case "go-close":
               close();

@@ -63,16 +63,16 @@ function DataManager({ root }) {
           setConfig({
             ...config,
             ...{
-              name: "Вы не выиграли",
-              text: "Попробуйте сыграть еще раз",
-              image: "./images/no-prize.png",
+              name: config.prize.noPrizeName,
+              text: config.prize.noPrizeText,
+              image: config.prize.noPrizeUrl,
               noPrize: true,
             },
           });
           // setError(config.errors.noData);
         }
         if (response.data.result === "OK") {
-          action("show-ready");
+          action("play-game");
         } else {
           setError(response.data.errorText);
         }
@@ -87,7 +87,7 @@ function DataManager({ root }) {
 
   useEffect(() => {
     if (stage === "loading") loadSettings(root);
-    if (stage === "ready-to-go") loadConfig(root);
+    if (stage === "start-game") loadConfig(root);
   }, [stage]);
 
   return null;

@@ -211,6 +211,7 @@ const useStyles = createUseStyles({
       backgroundImage: `url(${clockButtonDown})`,
     },
     animation: `$movestartButton 1s ease-in-out infinite alternate`,
+    transition: "opacity 500ms ease-in-out 200ms",
   },
   //
   // **** Игровой экран ******************************************************
@@ -240,7 +241,8 @@ const useStyles = createUseStyles({
     backgroundPosition: "center center",
     backgroundRepeat: "no-repeat",
     backgroundSize: "115px 128px",
-    transition: "opacity 1s ease-in-out 100ms",
+    pointerEvents: "none",
+    transition: "opacity 500ms ease-in-out 100ms",
   },
   clockProgressbar: {
     position: "absolute",
@@ -579,7 +581,7 @@ function Interface() {
           <div
             className={classes.startButton}
             onClick={(e) => {
-              action("ready-to-go");
+              action("show-ready");
             }}
           >
             Пробежаться и узнать
@@ -592,7 +594,13 @@ function Interface() {
       <div
         className={classes.clockButtonContainer}
         style={
-          ["ready-to-go", "ready-to-start"].includes(stage)
+          [
+            "ready-to-go",
+            "ready-to-start",
+            "start-game",
+            "play-game",
+            "game",
+          ].includes(stage)
             ? {
                 transform: "scale(1,1)",
                 opacity: 1,
@@ -608,8 +616,18 @@ function Interface() {
         <div
           className={classes.clockButton}
           style={{
-            opacity: stage === "ready-to-start" ? 1 : 0,
-            pointerEvents: stage === "ready-to-start" ? "all" : "none",
+            opacity: ["ready-to-start", "start-game", "play-game"].includes(
+              stage
+            )
+              ? 1
+              : 0,
+            pointerEvents: [
+              "ready-to-start",
+              "start-game",
+              "play-game",
+            ].includes(stage)
+              ? "all"
+              : "none",
           }}
           onClick={(e) => {
             action("start-game");
@@ -862,8 +880,7 @@ function Interface() {
       <div
         className={classes.clockContainer}
         style={{
-          opacity: stage === "game" ? 1 : 0,
-          pointerEvents: stage === "game" ? "all" : "none",
+          opacity: ["start-game", "play-game", "game"].includes(stage) ? 1 : 0,
           backgroundImage:
             step < config?.prize.pointRotationAmount ?? 1
               ? `url(${clock})`

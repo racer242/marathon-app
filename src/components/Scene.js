@@ -97,20 +97,41 @@ function Scene(props) {
         className={classes.wrapper}
         {...rest}
         style={{
-          opacity: ["ready-to-go", "ready-to-start", "game"].includes(stage)
+          opacity: [
+            "ready-to-go",
+            "ready-to-start",
+            "start-game",
+            "play-game",
+            "game",
+          ].includes(stage)
             ? 1
             : 0,
         }}
       >
-        {["ready-to-go", "ready-to-start", "game", "game-finish"].includes(
-          stage
-        ) && <div className={classes.field}></div>}
-        {["ready-to-go", "ready-to-start", "game", "game-finish"].includes(
-          stage
-        ) && <div className={classes.game}></div>}
-        {["ready-to-go", "ready-to-start", "game", "game-finish"].includes(
-          stage
-        ) &&
+        {[
+          "ready-to-go",
+          "ready-to-start",
+          "start-game",
+          "play-game",
+          "game",
+          "game-finish",
+        ].includes(stage) && <div className={classes.field}></div>}
+        {[
+          "ready-to-go",
+          "ready-to-start",
+          "start-game",
+          "play-game",
+          "game",
+          "game-finish",
+        ].includes(stage) && <div className={classes.game}></div>}
+        {[
+          "ready-to-go",
+          "ready-to-start",
+          "start-game",
+          "play-game",
+          "game",
+          "game-finish",
+        ].includes(stage) &&
           points.map((v, i) => (
             <div key={i}>
               <div

@@ -4,6 +4,7 @@
   "private": true,
   "_homepage": "/local/templates/simple.promo/components/promo/game.popup/simple.promo/",
   "homepage": "/game/",
+  "___homepage": ".",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",

@@ -34,3 +34,7 @@ function houseAppLayout() {
 document.addEventListener("readyGame", (event) => {
   houseAppLayout();
 });
+
+// window.addEventListener("load", (event) => {
+//   document.dispatchEvent(new CustomEvent("readyGame"));
+// });
