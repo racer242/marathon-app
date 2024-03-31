@@ -58,16 +58,16 @@ function DataManager({ root }) {
 
       if (response?.data) {
         if (response?.data?.data?.prize) {
-          setConfig({ ...response.data.data.prize, ...config });
+          setConfig({ ...config, ...response.data.data.prize });
         } else {
           setConfig({
+            ...config,
             ...{
               name: "Вы не выиграли",
               text: "Попробуйте сыграть еще раз",
               image: "./images/no-prize.png",
               noPrize: true,
             },
-            ...config,
           });
           // setError(config.errors.noData);
         }
