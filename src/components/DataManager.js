@@ -57,8 +57,9 @@ function DataManager({ root }) {
       }
 
       if (response?.data) {
+        let attemptsLeft = response?.data?.attemptsLeft ?? 0;
         if (response?.data?.data?.prize) {
-          setConfig({ ...config, ...response.data.data.prize });
+          setConfig({ ...config, ...response.data.data.prize, attemptsLeft });
         } else {
           setConfig({
             ...config,
@@ -67,6 +68,7 @@ function DataManager({ root }) {
               text: config.prize.noPrizeText,
               image: config.prize.noPrizeUrl,
               noPrize: true,
+              attemptsLeft,
             },
           });
           // setError(config.errors.noData);

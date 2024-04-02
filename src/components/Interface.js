@@ -838,20 +838,25 @@ function Interface() {
             >
               <div
                 className={classes.startLaterButton}
+                style={{
+                  left: config.attemptsLeft > 0 ? "210px" : "328px",
+                }}
                 onClick={(e) => {
                   e.target.dispatchEvent(new Event("skip", { bubbles: true }));
                 }}
               >
                 Закрыть окно
               </div>
-              <div
-                className={classes.startButton}
-                onClick={(e) => {
-                  action("restart");
-                }}
-              >
-                Сыграть еще раз
-              </div>
+              {config.attemptsLeft > 0 && (
+                <div
+                  className={classes.startButton}
+                  onClick={(e) => {
+                    action("restart");
+                  }}
+                >
+                  Сыграть еще раз
+                </div>
+              )}
             </div>
           </>
         )}

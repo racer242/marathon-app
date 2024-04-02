@@ -3,6 +3,7 @@
   "JWT": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI0NDUwIiwic3RhdHVzIjoiUEFSVElDSVBBTlQiLCJwZXJzb25hbCI6eyJmaXJzdE5hbWUiOiJcdTA0MTJcdTA0MzBcdTA0NDFcdTA0MzhcdTA0M2JcdTA0MzhcdTA0MzkhIiwibGFzdE5hbWUiOiJcdTA0MWZcdTA0MzVcdTA0NDJcdTA0NDBcdTA0M2VcdTA0MzIhIiwicGhvbmUiOiI3NzkwMDAwMDAwMCIsImVtYWl",
   "errorText": "Вы не авторизованы, требуется авторизация!",
   "data": {
+    "attemptsLeft": 0,
     "prize": {
       "name": "35 рублей На телефон",
       "text": "Мы пополним ваш номер телефона<br/> в течение недели",
